@@ -1,0 +1,10 @@
+{
+  "description": "Showcases a premium interactive experience studio connecting physical and digital worlds through immersive tech, portfolios, and custom projects.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
