@@ -500,6 +500,24 @@ function App() {
   const navPt = ['Experiências', 'Projetos', 'White Label', 'Lab', 'Sobre']
 
   useEffect(() => {
+    if (!menuOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    const desktop = window.matchMedia('(min-width: 901px)')
+    const closeOnDesktop = () => { if (desktop.matches) setMenuOpen(false) }
+    desktop.addEventListener('change', closeOnDesktop)
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      desktop.removeEventListener('change', closeOnDesktop)
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
     localStorage.setItem('nexus-language', language)
     document.documentElement.lang = language === 'pt' ? 'pt-BR' : 'en'
   }, [language])
