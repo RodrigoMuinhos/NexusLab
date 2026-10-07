@@ -30,6 +30,7 @@ const images = {
   racing: nexusRacingImage,
   toy: nexusToyLabImage,
   vr: nexusVrArenaImage,
+  vrKart: `${import.meta.env.BASE_URL}VR%20kart.png`,
   lab: 'https://images.unsplash.com/photo-1599727277643-b0c9cfb7705d?auto=format&fit=crop&w=1600&q=86',
 }
 
@@ -213,6 +214,16 @@ const experiences = [
     tagsPt: ['VR', 'Livre movimento', 'Multiplayer'],
     image: images.vr,
     tone: 'cyan',
+  },
+  {
+    id: '06',
+    name: 'Nexus VR Kart',
+    tagline: 'Race into a new reality.',
+    taglinePt: 'Acelere em uma nova realidade.',
+    tags: ['VR', 'Kart', 'Immersive racing'],
+    tagsPt: ['VR', 'Kart', 'Corrida imersiva'],
+    image: images.vrKart,
+    tone: 'orange',
   },
 ]
 
