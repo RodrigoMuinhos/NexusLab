@@ -63,6 +63,9 @@ type FigmaSiteConfiguration = {
   }
   openGraph?: {
     image?: string
+    width?: number
+    height?: number
+    type?: string
   }
   analytics?: {
     googleAnalyticsId?: string
@@ -149,7 +152,11 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
           tags.push({ tag: 'meta', attrs: { property: 'og:description', content: description }, injectTo: 'head' })
         }
         if (socialImage) {
+          if (config.openGraph?.width) tags.push({ tag: 'meta', attrs: { property: 'og:image:width', content: String(config.openGraph.width) }, injectTo: 'head' })
+          if (config.openGraph?.height) tags.push({ tag: 'meta', attrs: { property: 'og:image:height', content: String(config.openGraph.height) }, injectTo: 'head' })
+          if (config.openGraph?.type) tags.push({ tag: 'meta', attrs: { property: 'og:image:type', content: config.openGraph.type }, injectTo: 'head' })
           tags.push(
+            { tag: 'meta', attrs: { property: 'og:image:alt', content: title }, injectTo: 'head' },
             { tag: 'meta', attrs: { property: 'og:image', content: socialImage }, injectTo: 'head' },
             { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' }, injectTo: 'head' },
             { tag: 'meta', attrs: { name: 'twitter:image', content: socialImage }, injectTo: 'head' },
