@@ -468,7 +468,7 @@ function ContactModal({
                 placeholder={tr('Event, shopping center, brand activation, installation, custom project...', 'Evento, shopping, ativação de marca, instalação, projeto personalizado...')}
               />
               <ActionButton className="contact-submit" type="submit" disabled={status === 'loading'}>
-                <span>{status === 'loading' ? tr('Sending...', 'Enviando...') : tr('Send request', 'Enviar solicitação')}</span>
+                <span>{status === 'loading' ? tr('Sending...', 'Enviando...') : import.meta.env.PROD && !import.meta.env.VITE_API_URL ? tr('Open email', 'Abrir e-mail') : tr('Send request', 'Enviar solicitação')}</span>
                 {status === 'loading' ? <i className="contact-submit__loader" /> : <Arrow />}
               </ActionButton>
               {status === 'error' && <p role="alert">{tr('Unable to send your request. Please try again.', 'Não foi possível enviar sua solicitação. Tente novamente.')}</p>}
@@ -528,9 +528,21 @@ function App() {
     event.preventDefault()
     if (submitStatus === 'loading') return
     const payload = Object.fromEntries(new FormData(event.currentTarget).entries())
+    const base = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+    if (import.meta.env.PROD && !base) {
+      const body = [
+        `Nome / Name: ${payload.name || ''}`,
+        `Email: ${payload.email || ''}`,
+        `Empresa / Company: ${payload.company || ''}`,
+        `Interesse / Interest: ${payload.interest || ''}`,
+        '',
+        String(payload.idea || ''),
+      ].join('\n')
+      window.location.href = `mailto:hello@nexuslab.com?subject=${encodeURIComponent('Projeto Nexus Lab')}&body=${encodeURIComponent(body)}`
+      return
+    }
     setSubmitStatus('loading')
     try {
-      const base = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
       const response = await fetch(`${base}/api/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

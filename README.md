@@ -30,6 +30,12 @@ Copie `.env.example` para `.env` em cada serviço se precisar alterar os padrõe
 
 ## Deploy independente
 
+### Vercel: publicar somente o frontend
+
+Importe este repositório na Vercel. Pode usar a raiz do repositório (saída `frontend/dist`) ou definir Root Directory como `frontend` (saída `dist`); os arquivos `vercel.json` configuram ambos os casos. O backend não é publicado por essas configurações.
+
+Deixe `VITE_API_URL` sem configuração enquanto o backend não estiver publicado. Nesse modo, o formulário abre o aplicativo de e-mail com a mensagem preenchida; o usuário precisa enviá-la por lá. As fotos são armazenadas diretamente no Git, sem depender de download via Git LFS.
+
 1. Frontend: configure `VITE_API_URL=https://api.seu-dominio.com`, execute `npm run build` na raiz e publique `frontend/dist` em um serviço de hospedagem estática. Se houver proxy de produção de `/api` para o backend no mesmo domínio, deixe `VITE_API_URL` vazia.
 2. Backend: publique a pasta `backend`, use Node.js 22.9+ e execute `npm start`. Configure `HOST=0.0.0.0`, `PORT` conforme o provedor e `FRONTEND_ORIGIN=https://seu-dominio.com` (múltiplas origens separadas por vírgula).
 3. Defina `DATA_DIR` apontando para um volume persistente. O armazenamento atual em arquivo serve para uma única instância; para múltiplas instâncias, migre para um banco de dados compartilhado. Em hospedagem com disco efêmero, os contatos se perdem sem volume persistente.
